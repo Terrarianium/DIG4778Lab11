@@ -4,10 +4,13 @@ using UnityEngine;
 public class Pathfinding : MonoBehaviour
 {
     private List<Vector2Int> path = new List<Vector2Int>();
-    private Vector2Int start = new Vector2Int(0, 1);
-    private Vector2Int goal = new Vector2Int(4, 4);
+    public Vector2Int start = new Vector2Int(0, 1);
+    public Vector2Int goal = new Vector2Int(4, 4);
     private Vector2Int next;
     private Vector2Int current;
+    public bool randomGrid = true;
+    public float obstacleProbability = 20f;
+    private int failedGenerationCount = 0;
 
     private Vector2Int[] directions = new Vector2Int[]
     {
@@ -19,15 +22,16 @@ public class Pathfinding : MonoBehaviour
 
     public int[,] grid = new int[,]
     {
-        { 0, 1, 0, 0, 0 },
-        { 0, 1, 0, 1, 0 },
-        { 0, 0, 0, 1, 0 },
-        { 0, 1, 1, 1, 0 },
+        { 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0 }
     };
 
     private void Start()
     {
+        if (randomGrid) CreateRandomObstacles.GenerateRandomGrid(5, 5, obstacleProbability);
         FindPath(start, goal);
     }
 
@@ -98,7 +102,15 @@ public class Pathfinding : MonoBehaviour
 
         if (!cameFrom.ContainsKey(goal))
         {
-            Debug.Log("Path not found.");
+            Debug.Log("Path not found. New maze being generated.");
+            failedGenerationCount++;
+            if (failedGenerationCount == 25)
+            {
+                Debug.Log("Failed to generate a valid maze after 25 attempts. Stopping further attempts.");
+                return;
+            }
+            CreateRandomObstacles.GenerateRandomGrid(5, 5, obstacleProbability);
+            FindPath(start, goal);
             return;
         }
 
