@@ -36,10 +36,14 @@ public class Pathfinding : MonoBehaviour
 
     private void Start()
     {
-        if (randomGrid) CreateRandomObstacles.GenerateRandomGrid(5, 5, obstacleProbability);
-
-        AddObstacles();
-
+        if (randomGrid)
+        {
+            CreateRandomObstacles.GenerateRandomGrid(5, 5, obstacleProbability);
+        }
+        else
+        {
+            AddObstacles();
+        }
         FindPath(start, goal);
     }
 
