@@ -1,18 +1,13 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddGridObstacle : MonoBehaviour
+public class AddGridObstacle
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector2Int[] obstacles;
 
-    // Update is called once per frame
-    void Update()
-    {
+    public static void PickObstacleLocations()
+    { 
         
     }
 }

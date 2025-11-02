@@ -341,6 +341,12 @@ MonoBehaviour:
   goal: {x: 4, y: 4}
   randomGrid: 0
   obstacleProbability: 75
+  obstacles:
+  - {x: 0, y: 2}
+  - {x: 2, y: 1}
+  - {x: 3, y: 0}
+  - {x: 4, y: 1}
+  - {x: 0, y: 2}
 --- !u!4 &1498171253
 Transform:
   m_ObjectHideFlags: 0

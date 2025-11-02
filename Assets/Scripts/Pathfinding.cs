@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
@@ -11,6 +13,9 @@ public class Pathfinding : MonoBehaviour
     public bool randomGrid = true;
     public float obstacleProbability = 20f;
     private int failedGenerationCount = 0;
+
+    public Vector2Int[] obstacles;
+    private Vector2Int[] previousObstacles;
 
     private Vector2Int[] directions = new Vector2Int[]
     {
@@ -32,13 +37,16 @@ public class Pathfinding : MonoBehaviour
     private void Start()
     {
         if (randomGrid) CreateRandomObstacles.GenerateRandomGrid(5, 5, obstacleProbability);
+
+        AddObstacles();
+
         FindPath(start, goal);
     }
 
     private void OnDrawGizmos()
     {
         float cellSize = 1f;
-
+        
         // Draw grid cells
         for (int y = 0; y < grid.GetLength(0); y++)
         {
@@ -47,6 +55,18 @@ public class Pathfinding : MonoBehaviour
                 Vector3 cellPosition = new Vector3(x * cellSize, 0, y * cellSize);
                 Gizmos.color = grid[y, x] == 1 ? Color.black : Color.white;
                 Gizmos.DrawCube(cellPosition, new Vector3(cellSize, 0.1f, cellSize));
+
+                for (int i = 0; i < obstacles.Length; i++)
+                {
+                    Vector2Int obstaclesValues = obstacles[i];
+                    float xValue = obstaclesValues.x;
+                    float yValue = obstaclesValues.y;
+                    if (xValue == x && yValue == y)
+                    {
+                        grid[y, x] = 1;
+                    }
+                }
+                
             }
         }
 
@@ -123,5 +143,25 @@ public class Pathfinding : MonoBehaviour
         }
         path.Add(start);
         path.Reverse();
+    }
+
+    void AddObstacles()
+    {
+        for (int y = 0; y < grid.GetLength(0); y++)
+        {
+            for (int x = 0; x < grid.GetLength(1); x++)
+            {
+                for (int i = 0; i < obstacles.Length; i++)
+                {
+                    Vector2Int obstaclesValues = obstacles[i];
+                    float xValue = obstaclesValues.x;
+                    float yValue = obstaclesValues.y;
+                    if (xValue == x && yValue == y)
+                    {
+                        grid[y, x] = 1;
+                    }
+                }
+            }
+        }
     }
 }
