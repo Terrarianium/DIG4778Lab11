@@ -1,7 +1,7 @@
 How does each pathfinding algorithms calculate and prioritize paths?
 
 What challenges arise when dynamically updating obstacles in real-time?
-
+One challenge that could arise is that if a vertex is marked as cameFrom is turned into an obstacle, the path could mistakenly use that vertex as a path even though it has been turned into an obstacle.
 Which algorithm should you choose and how should you adapt it for larger grids or open-world settings?
 You should choose A* since it uses heuristic to determine the cheapest route to take, and would figure it out the fastest. You should adapt it by giving some grids a higher cost, so it will find the shortest path to getting from point A to B.
 What would your approach be if you were to add weighted cells (e.g., "difficult terrain" areas)?
